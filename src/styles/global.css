@@ -1,0 +1,10 @@
+@import "tailwindcss/base";
+
+@import "tailwindcss/components";
+h3 {
+    @apply text-xl font-black md:text-2xl;
+}
+a {
+    @apply underline hover:text-green-500 font-medium;
+}
+@import "tailwindcss/utilities";
