@@ -116,7 +116,7 @@ const App: React.FC = () => {
             href="https://wiki.cancerimagingarchive.net/pages/viewpage.action?pageId=70230281"
             target="_blank"
             rel="noreferrer">
-            MIDRC-RICORD-1c
+            MIDRC-RICORD-1ca
           </a>
           <p className="text-sm mt-2">From Cancer Imaging Archive - Mar 05, 2021</p>
         </div>
