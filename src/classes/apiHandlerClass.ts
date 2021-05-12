@@ -8,24 +8,25 @@ export type methodTypes = "post"|"patch"|"put"|"delete"|"get"
 class apiHandlerClass{
         private readonly method:methodTypes
         private readonly url:string
-        private readonly payload:object | undefined
-        private readonly typeOfData:string | undefined
+        private readonly payload:any
+        private readonly typeOfData:any
         private readonly dataHandler:Function
         private readonly errorHandler:Function
-        private readonly instance: AxiosInstance;
+        private readonly instance: AxiosInstance
 
         constructor(
             method:methodTypes,
             url:string,
-            payload=undefined,
-            typeOfData=undefined,
+            payload:any,
+            typeOfData:any,
             dataHandler=(data:AxiosResponse)=>data,
-            errorHandler=(err:any)=>console.log(err)){
-            this.method = method,
-            this.url = url,
-            this.payload = payload,
-            this.typeOfData = typeOfData,
-            this.dataHandler = dataHandler,
+            errorHandler=(err:any)=>console.log(err)
+            ) {
+            this.method = method
+            this.url = url
+            this.payload = payload
+            this.typeOfData = typeOfData
+            this.dataHandler = dataHandler
             this.errorHandler =errorHandler
             this.instance = axios.create({
                 url,
@@ -66,8 +67,14 @@ class apiHandlerClass{
             if(this.typeOfData==="multipart/form-data"){
                 let formData = new FormData()
                     for (let key in payload) {
+                        if (key.toString() === "file") {
+                            for (const file of payload[key]) {
+                                formData.append(key.toString(), file)
+                            }
+                    }else{
                         formData.append(key.toString(), payload[key])
                     }
+                }
                 return formData
             }else{
                 return payload

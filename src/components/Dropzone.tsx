@@ -12,6 +12,7 @@ export interface DropzoneProps {
     maxFileSize: number,
     maxFilesNumber: number,
     setBodyFormData: Function
+    setPreviewImage: Function
 }
 
 const Dropzone: React.FC<DropzoneProps> = (
@@ -19,7 +20,8 @@ const Dropzone: React.FC<DropzoneProps> = (
         name,
         maxFileSize = 1000000,
         maxFilesNumber = 1,
-        setBodyFormData
+        setBodyFormData,
+        setPreviewImage
     }
 ) => {
 
@@ -39,6 +41,10 @@ const Dropzone: React.FC<DropzoneProps> = (
         maxSize: maxFileSize,
         onDrop: acceptedFiles => {
             setBodyFormData((prev: object) => ({ ...prev, [name]: acceptedFiles }))
+            setPreviewImage({
+                preview: URL.createObjectURL(acceptedFiles[0])
+            })
+
         }
     })
 
