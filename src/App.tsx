@@ -30,8 +30,10 @@ const App: React.FC = () => {
 
   const [diagnosis, setDiagnosis]: [covid19Diagnosis, (diagnosis: covid19Diagnosis) => void] = React.useState<covid19Diagnosis>()
 
+  const [isLoading, setIsLoading]: [boolean, (isLoading: boolean) => void] = React.useState<boolean>(false)
+
   const sendDataHandler = async () => {
-    const postData = new apiHandlerClass("post", "http://localhost:8000/v1/image", bodyFormData, "multipart/form-data")
+    const postData = new apiHandlerClass("post", "http://localhost:8000/v1/image", bodyFormData, "multipart/form-data", setIsLoading)
     const response: apiResponse = await postData.makeRequest()
     setDiagnosis(response.response)
   }
@@ -102,7 +104,7 @@ const App: React.FC = () => {
 
               {
                 bodyFormData.file.length > 0 && (
-                  <Button label="Get diagnosis!" color="red" callback={sendDataHandler} />
+                  <Button isLoading={isLoading} label="Get diagnosis!" color="red" callback={sendDataHandler} />
                 )
               }
             </>

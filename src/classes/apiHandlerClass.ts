@@ -12,6 +12,7 @@ class apiHandlerClass{
         private readonly typeOfData:any
         private readonly dataHandler:Function
         private readonly errorHandler:Function
+        private readonly setLoadingState:Function
         private readonly instance: AxiosInstance
 
         constructor(
@@ -19,8 +20,9 @@ class apiHandlerClass{
             url:string,
             payload:any,
             typeOfData:any,
+            setLoadingState:Function,
             dataHandler=(data:AxiosResponse)=>data,
-            errorHandler=(err:any)=>console.log(err)
+            errorHandler=(err:any)=>console.log(err),
             ) {
             this.method = method
             this.url = url
@@ -28,6 +30,7 @@ class apiHandlerClass{
             this.typeOfData = typeOfData
             this.dataHandler = dataHandler
             this.errorHandler =errorHandler
+            this.setLoadingState = setLoadingState
             this.instance = axios.create({
                 url,
               })
@@ -45,9 +48,14 @@ class apiHandlerClass{
             )
           }
      
-        private _handleResponse = ({ data }: AxiosResponse) => this.dataHandler(data)
+        private _handleResponse = ({ data }: AxiosResponse) => {
+            this.setLoadingState(false)
+            return this.dataHandler(data)
+        }
+        
 
         private _handleError = (error: any) => {
+            this.setLoadingState(false)
             Promise.reject(error)
             this.errorHandler(error)
         }
@@ -82,6 +90,7 @@ class apiHandlerClass{
         }
 
         public makeRequest = async () =>{
+            this.setLoadingState(true)
             if (this.method!=="get"){
                 //Use return await ... to return a value in the data / error handler (you should also return something in these functions)
                 if(!this.payload){
