@@ -9,7 +9,12 @@ export interface ButtonProps {
     isLoading?: boolean,
 }
 
-const Button: React.FC<ButtonProps> = ({ label, color, callback, isLoading = false }) => {
+const Button: React.FC<ButtonProps> = ({
+    label,
+    color,
+    callback,
+    isLoading = false
+}) => {
 
     const divBtnRef = useRef<HTMLDivElement>(null)
     const [buttonWidth, setButtonWidth]: [string, (buttonWidth: string) => void] = useState<string>("auto")
@@ -17,7 +22,6 @@ const Button: React.FC<ButtonProps> = ({ label, color, callback, isLoading = fal
     useLayoutEffect(() => {
         if (divBtnRef !== undefined) {
             if (divBtnRef.current) {
-                console.log(window.getComputedStyle(divBtnRef.current).width)
                 setButtonWidth(window.getComputedStyle(divBtnRef.current).width)
             }
         }
